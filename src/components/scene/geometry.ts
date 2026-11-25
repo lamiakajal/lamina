@@ -117,3 +117,54 @@ export const swimSnippet = (wave = 3.4): string => /* glsl */ `
   transformed.z += sin(uTime * uSpeed + aPhase - position.x * ${wave.toFixed(1)}) * uAmp * k * k;
   transformed.z += sin(uTime * uSpeed + aPhase + 1.1) * uAmp * 0.10;
 `;
+
+/** A manta ray: a swept diamond of wing plus a thin tail, flat in the XZ plane. */
+export function makeMantaGeometry(): THREE.BufferGeometry {
+  const plane = new THREE.PlaneGeometry(1, 1, 30, 16);
+  plane.rotateX(-Math.PI / 2);
+  plane.deleteAttribute("uv");
+
+  const p = plane.attributes.position as THREE.BufferAttribute;
+  const col: number[] = [];
+  const dark = new THREE.Color("#1b2a36");
+  const light = new THREE.Color("#9fb3bf");
+  const tmp = new THREE.Color();
+
+  for (let i = 0; i < p.count; i++) {
+    const cx = p.getX(i); // chord, -0.5 to 0.5
+    const cz = p.getZ(i) * 3.4; // span, about -1.7 to 1.7
+    const span = Math.abs(cz) / 1.7;
+    const chord = 1 - Math.pow(span, 1.5) * 0.93;
+    const x = cx * 1.5 * chord - span * span * 0.55; // tips sweep backwards
+    const bump = Math.max(0, 1 - span * 2.4) * 0.16 * Math.max(0, 1 - (cx * 2) ** 2);
+    p.setXYZ(i, x, bump, cz);
+
+    // pale shoulder patches
+    const patch = Math.exp(-(((cx - 0.1) / 0.18) ** 2)) * Math.exp(-(((span - 0.32) / 0.14) ** 2));
+    tmp.copy(dark).lerp(light, patch * 0.85);
+    col.push(tmp.r, tmp.g, tmp.b);
+  }
+  plane.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
+  plane.computeVertexNormals();
+
+  const tail = new THREE.ConeGeometry(0.025, 1.8, 6, 1);
+  tail.rotateZ(Math.PI / 2);
+  tail.translate(-1.6, 0, 0);
+  tail.deleteAttribute("uv");
+
+  return mergeGeometries([plane, paint(tail, dark)], false) ?? plane;
+}
+
+/** Wing beat: the tips lag behind the middle of the wing. */
+export const MANTA_SNIPPET = /* glsl */ `
+  float sp = abs(position.z) / 1.7;
+  transformed.y += sin(uTime * uSpeed + aPhase - abs(position.z) * 1.8) * pow(sp, 1.6) * uAmp;
+`;
+
+/** Bell pulse: the rim opens and closes. */
+export const JELLY_SNIPPET = /* glsl */ `
+  float s = sin(uTime * uSpeed + aPhase);
+  float rim = clamp(0.55 - position.y, 0.0, 1.0);
+  transformed.xz *= 1.0 + 0.14 * s * rim;
+  transformed.y -= 0.10 * s * rim;
+`;
