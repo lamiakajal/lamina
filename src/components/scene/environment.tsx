@@ -220,3 +220,64 @@ export function Particles({ count, yMin, yMax, size, tints, alpha, twinkle, seed
 
   return <points geometry={geometry} material={material} frustumCulled={false} />;
 }
+
+// Background colour at the start of each zone, with one extra stop for the very bottom.
+const BG = ["#1796b3", "#0b5a8a", "#052443", "#020d1a", "#01060c", "#000204"].map((c) => new THREE.Color(c));
+const FOG = [0.018, 0.028, 0.038, 0.048, 0.055, 0.06];
+const tmp = new THREE.Color();
+
+/**
+ * Runs the per-frame work: time, colours, fog, lights and the camera.
+ * Everything is driven by store.current, the eased scroll position.
+ */
+export function Rig() {
+  const hemi = useRef<THREE.HemisphereLight>(null);
+  const sun = useRef<THREE.DirectionalLight>(null);
+  const sub = useRef<THREE.PointLight>(null);
+
+  useFrame((state) => {
+    const t = store.current;
+    timeU.value = state.clock.elapsedTime * (store.reduced ? 0.35 : 1);
+
+    const i = Math.min(4, Math.floor(t));
+    const f = t - i;
+    tmp.copy(BG[i]).lerp(BG[i + 1], f);
+
+    if (state.scene.background instanceof THREE.Color) state.scene.background.copy(tmp);
+    const fog = state.scene.fog;
+    if (fog instanceof THREE.FogExp2) {
+      fog.color.copy(tmp);
+      fog.density = FOG[i] + (FOG[i + 1] - FOG[i]) * f;
+    }
+
+    sunU.value = Math.pow(Math.min(1, Math.max(0, 1 - t / 1.6)), 1.4);
+    glowU.value = sstep(1.4, 2.8, t);
+    snowU.value = 0.22 + 0.1 * t;
+
+    if (sun.current) sun.current.intensity = 2.6 * sunU.value;
+    if (hemi.current) hemi.current.intensity = 0.07 + 0.95 * sunU.value;
+
+    // camera: straight down the water column with a little sway and mouse parallax
+    const camY = -t * ZONE_H - 1.5;
+    const px = state.pointer.x;
+    const py = state.pointer.y;
+    state.camera.position.set(Math.sin(timeU.value * 0.2) * 0.5 + px * 0.7, camY + py * 0.3, 10);
+    // at the very top, look up toward the surface, then level out
+    const lookUp = 3.5 * (1 - sstep(0, 0.7, t)) - 1;
+    state.camera.lookAt(px * 1.5, camY + lookUp + py * 0.8, -10);
+
+    // a soft light that rides with the camera once the sun is gone
+    if (sub.current) {
+      sub.current.intensity = 38 * sstep(1.0, 2.4, t);
+      sub.current.position.set(state.camera.position.x, camY + 0.5, 13);
+    }
+  });
+
+  return (
+    <>
+      <hemisphereLight ref={hemi} args={["#9fe8ff", "#04283a", 1]} />
+      <directionalLight ref={sun} position={[6, 24, 8]} color="#e6fbff" intensity={2.6} />
+      <pointLight ref={sub} color="#bfe9ff" distance={45} decay={2} intensity={0} />
+    </>
+  );
+}
