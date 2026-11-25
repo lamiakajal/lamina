@@ -118,3 +118,105 @@ export function Rays() {
     </>
   );
 }
+
+type ParticleProps = {
+  count: number;
+  yMin: number;
+  yMax: number;
+  size: number;
+  tints: string[];
+  alpha: { value: number };
+  twinkle: number; // 0 steady, 1 fully twinkling
+  seed: number;
+};
+
+/** Drifting points: marine snow near the top, glowing specks in the deep. */
+export function Particles({ count, yMin, yMax, size, tints, alpha, twinkle, seed }: ParticleProps) {
+  const dpr = useThree((s) => s.viewport.dpr);
+
+  const { geometry, material } = useMemo(() => {
+    const r = mulberry32(seed);
+    const colors = tints.map((c) => new THREE.Color(c));
+    const pos = new Float32Array(count * 3);
+    const seeds = new Float32Array(count);
+    const tint = new Float32Array(count * 3);
+
+    for (let i = 0; i < count; i++) {
+      pos.set([(r() - 0.5) * 44, yMin + r() * (yMax - yMin), -30 + r() * 44], i * 3);
+      seeds[i] = r();
+      const c = colors[Math.floor(r() * colors.length)];
+      tint.set([c.r, c.g, c.b], i * 3);
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
+    geometry.setAttribute("aTint", new THREE.BufferAttribute(tint, 3));
+
+    const material = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      uniforms: {
+        uTime: timeU,
+        uSize: { value: size },
+        uPixel: { value: 1 },
+        uAlpha: alpha,
+        uTwinkle: { value: twinkle },
+      },
+      vertexShader: /* glsl */ `
+        uniform float uTime;
+        uniform float uSize;
+        uniform float uPixel;
+        attribute float aSeed;
+        attribute vec3 aTint;
+        varying float vSeed;
+        varying vec3 vTint;
+        void main() {
+          vec3 p = position;
+          p.x += sin(uTime * 0.13 + aSeed * 40.0) * 0.9;
+          p.y += sin(uTime * 0.21 + aSeed * 25.0) * 0.7;
+          p.z += cos(uTime * 0.11 + aSeed * 33.0) * 0.9;
+          vec4 mv = modelViewMatrix * vec4(p, 1.0);
+          gl_Position = projectionMatrix * mv;
+          float s = uSize * (0.6 + aSeed) * uPixel * 28.0 / max(1.0, -mv.z);
+          gl_PointSize = clamp(s, 1.0, 48.0 * uPixel);
+          vSeed = aSeed;
+          vTint = aTint;
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        uniform float uAlpha;
+        uniform float uTime;
+        uniform float uTwinkle;
+        varying float vSeed;
+        varying vec3 vTint;
+        void main() {
+          float d = length(gl_PointCoord - 0.5);
+          float a = smoothstep(0.5, 0.05, d);
+          float flicker = 0.35 + 0.65 * (0.5 + 0.5 * sin(uTime * (0.8 + vSeed * 1.7) + vSeed * 60.0));
+          float tw = mix(1.0, flicker, uTwinkle);
+          gl_FragColor = vec4(vTint, a * uAlpha * tw);
+        }
+      `,
+    });
+
+    return { geometry, material };
+    // the inputs are constants for the lifetime of the scene
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    material.uniforms.uPixel.value = dpr;
+  }, [dpr, material]);
+
+  useEffect(
+    () => () => {
+      geometry.dispose();
+      material.dispose();
+    },
+    [geometry, material],
+  );
+
+  return <points geometry={geometry} material={material} frustumCulled={false} />;
+}
