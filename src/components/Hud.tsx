@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SITE } from "@/lib/site";
 import { depthAt, pressureAt, store, zoneIndexAt } from "@/lib/store";
+import { wavePath } from "@/lib/wave";
 import { ZONES } from "@/lib/zones";
 
 const fmt = new Intl.NumberFormat("en-US");
@@ -12,6 +13,7 @@ export default function Hud() {
   const depthRef = useRef<HTMLSpanElement>(null);
   const pressureRef = useRef<HTMLSpanElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const waveRef = useRef<HTMLDivElement>(null);
   const [zone, setZone] = useState(0);
 
   useEffect(() => {
@@ -24,6 +26,8 @@ export default function Hud() {
       if (depthRef.current) depthRef.current.textContent = fmt.format(Math.round(depth));
       if (pressureRef.current) pressureRef.current.textContent = fmt.format(Math.round(pressureAt(depth)));
       if (barRef.current) barRef.current.style.transform = `scaleY(${t / ZONES.length})`;
+      // the small wave on the meter flattens as the water goes still
+      if (waveRef.current) waveRef.current.style.transform = `scaleY(${Math.max(0.08, 1 - t / 3.2)})`;
       const z = zoneIndexAt(t);
       if (z !== last) {
         last = z;
@@ -54,6 +58,16 @@ export default function Hud() {
           <span ref={depthRef}>0</span>
           <span className="ml-1 text-base text-white/70">m</span>
         </p>
+        <div ref={waveRef} aria-hidden className="mt-2 ml-auto h-3 w-28 origin-center overflow-hidden text-cyan-200">
+          <svg
+            className="wave-drift h-full w-[200%]"
+            viewBox="0 0 400 12"
+            preserveAspectRatio="none"
+            style={{ "--wave-speed": "6s" } as React.CSSProperties}
+          >
+            <path d={wavePath(400, 6, 4, 100, 0, 10)} fill="none" stroke="currentColor" strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
+          </svg>
+        </div>
         <p className="mt-1 text-xs text-white/70">
           <span ref={pressureRef}>1</span> atm · {ZONES[zone].name}
         </p>
