@@ -56,6 +56,36 @@ export default function Hud() {
           <span ref={pressureRef}>1</span> atm · {ZONES[zone].name}
         </p>
       </div>
+
+      {/* zone navigation, hidden on small screens */}
+      <nav
+        aria-label="Ocean zones"
+        className="pointer-events-auto fixed left-4 top-1/2 hidden -translate-y-1/2 flex-col gap-4 sm:flex sm:left-6"
+      >
+        {ZONES.map((z, i) => (
+          <button
+            key={z.id}
+            type="button"
+            aria-label={`Go to ${z.name}`}
+            aria-current={i === zone ? "true" : undefined}
+            onClick={() =>
+              document
+                .getElementById(`zone-${i}`)
+                ?.scrollIntoView({ behavior: store.reduced ? "auto" : "smooth", block: "center" })
+            }
+            className="group flex items-center gap-3"
+          >
+            <span
+              className={`block h-2.5 w-2.5 rounded-full border border-white/70 transition ${
+                i === zone ? "scale-125 bg-white" : "bg-transparent group-hover:bg-white/50"
+              }`}
+            />
+            <span className="text-[0.7rem] uppercase tracking-[0.2em] text-white/0 transition group-hover:text-white/80 group-focus-visible:text-white/80">
+              {z.technical}
+            </span>
+          </button>
+        ))}
+      </nav>
     </div>
   );
 }
