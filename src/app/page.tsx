@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import Hud from "@/components/Hud";
 import SceneLoader from "@/components/SceneLoader";
 import ScrollDriver from "@/components/ScrollDriver";
 import ZoneSection from "@/components/ZoneSection";
@@ -9,7 +10,8 @@ export default function Home() {
     <>
       <SceneLoader />
       <ScrollDriver />
-      <main className="relative z-10">
+      <Hud />
+      <main id="top" className="relative z-10">
         <Hero />
         <div id="zones">
           {ZONES.map((zone, i) => (
