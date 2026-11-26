@@ -326,3 +326,160 @@ export function Jellies({ zone, count, seed, sizeMin = 0.9, sizeMax = 1.7 }: Jel
     </>
   );
 }
+
+/** Deep-sea anglerfish with a glowing lure on a stalk. */
+export function Angler(p: OrbitOpts) {
+  const ref = useRef<THREE.Group>(null);
+  const light = useRef<THREE.PointLight>(null);
+
+  const built = useMemo(() => {
+    const bodyGeometry = makeFishGeometry({
+      H: 0.85,
+      W: 0.7,
+      tail: 0.45,
+      dorsal: 0.12,
+      eye: 0.07,
+      head: 0.25,
+      back: "#1d1510",
+      belly: "#2b2018",
+    });
+    const bodyMaterial = makeAnimatedMaterial({
+      vertexColors: true,
+      metalness: 0.1,
+      roughness: 0.7,
+      phase: p.phase,
+      speed: 3.2,
+      amp: 0.12,
+      snippet: swimSnippet(),
+    });
+
+    const curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0.45, 0.78, 0),
+      new THREE.Vector3(0.75, 1.35, 0),
+      new THREE.Vector3(1.25, 1.45, 0),
+      new THREE.Vector3(1.45, 1.2, 0),
+    ]);
+    const stalkGeometry = new THREE.TubeGeometry(curve, 16, 0.018, 6, false);
+    const stalkMaterial = new THREE.MeshStandardMaterial({ color: "#2a1f17", roughness: 0.8 });
+    const tip = curve.getPoint(1);
+
+    // a row of small teeth along the jaw
+    const toothGeometry = new THREE.ConeGeometry(0.018, 0.12, 5);
+    const toothMaterial = new THREE.MeshStandardMaterial({ color: "#e8e4d8", roughness: 0.4 });
+    const teeth: [number, number, number][] = [];
+    for (let i = 0; i < 9; i++) {
+      for (const side of [1, -1]) teeth.push([0.95 - i * 0.07, -0.18 + i * 0.012, side * (0.36 - i * 0.025)]);
+    }
+
+    return { bodyGeometry, bodyMaterial, stalkGeometry, stalkMaterial, tip, toothGeometry, toothMaterial, teeth };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useOrbit(ref, p);
+
+  // the lure flickers a little
+  useFrame(() => {
+    if (light.current) light.current.intensity = 0.7 + Math.sin(timeU.value * 2.2 + p.phase) * 0.25;
+  });
+
+  useEffect(
+    () => () => {
+      built.bodyGeometry.dispose();
+      built.bodyMaterial.dispose();
+      built.stalkGeometry.dispose();
+      built.stalkMaterial.dispose();
+      built.toothGeometry.dispose();
+      built.toothMaterial.dispose();
+    },
+    [built],
+  );
+
+  return (
+    <group ref={ref} scale={1.4}>
+      <mesh geometry={built.bodyGeometry} material={built.bodyMaterial} />
+      <mesh geometry={built.stalkGeometry} material={built.stalkMaterial} />
+      {built.teeth.map((pos, i) => (
+        <mesh key={i} geometry={built.toothGeometry} material={built.toothMaterial} position={pos} rotation={[Math.PI, 0, 0]} />
+      ))}
+      <group position={built.tip}>
+        <mesh>
+          <sphereGeometry args={[0.07, 12, 10]} />
+          <meshBasicMaterial color="#9ffcff" toneMapped={false} fog={false} />
+        </mesh>
+        <GlowSprite color="#7be8ff" size={1.4} opacity={0.9} />
+        <pointLight ref={light} color="#7be8ff" distance={10} decay={2} intensity={0.7} />
+      </group>
+    </group>
+  );
+}
+
+type GulperProps = OrbitOpts & { size?: number };
+const GULPER_STRETCH = 7;
+
+/** Gulper eel: a long thin body with a big head and a glowing tail tip. */
+export function Gulper(p: GulperProps) {
+  const ref = useRef<THREE.Group>(null);
+  const tipRef = useRef<THREE.Sprite>(null);
+
+  const { geometry, material } = useMemo(
+    () => ({
+      geometry: makeFishGeometry({
+        H: 0.12,
+        W: 0.1,
+        tail: 0.1,
+        head: 1.7,
+        eye: 0.03,
+        back: "#1c1428",
+        belly: "#2a1d3a",
+      }),
+      material: makeAnimatedMaterial({
+        vertexColors: true,
+        metalness: 0.1,
+        roughness: 0.6,
+        phase: p.phase,
+        speed: 2.2,
+        amp: 0.28,
+        snippet: swimSnippet(),
+      }),
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  useOrbit(ref, p);
+
+  // keep the glow on the tip as the tail whips side to side
+  useFrame(() => {
+    const tip = tipRef.current;
+    if (!tip) return;
+    const t = timeU.value * 2.2 + p.phase;
+    tip.position.set(-GULPER_STRETCH, 0, Math.sin(t + 3.4) * 0.28 + Math.sin(t + 1.1) * 0.028);
+  });
+
+  useEffect(
+    () => () => {
+      geometry.dispose();
+      material.dispose();
+    },
+    [geometry, material],
+  );
+
+  return (
+    <group ref={ref} scale={p.size ?? 1}>
+      <group scale={[GULPER_STRETCH, 1, 1]}>
+        <mesh geometry={geometry} material={material} />
+      </group>
+      <sprite ref={tipRef} scale={[1.1, 1.1, 1]}>
+        <spriteMaterial
+          map={getGlowTexture()}
+          color="#ff6a9a"
+          opacity={0.95}
+          blending={THREE.AdditiveBlending}
+          transparent
+          depthWrite={false}
+          fog={false}
+        />
+      </sprite>
+    </group>
+  );
+}
