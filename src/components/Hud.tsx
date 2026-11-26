@@ -11,6 +11,7 @@ const fmt = new Intl.NumberFormat("en-US");
 export default function Hud() {
   const depthRef = useRef<HTMLSpanElement>(null);
   const pressureRef = useRef<HTMLSpanElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const [zone, setZone] = useState(0);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function Hud() {
       // write straight to the DOM, a React render every frame would be wasteful
       if (depthRef.current) depthRef.current.textContent = fmt.format(Math.round(depth));
       if (pressureRef.current) pressureRef.current.textContent = fmt.format(Math.round(pressureAt(depth)));
+      if (barRef.current) barRef.current.style.transform = `scaleY(${t / ZONES.length})`;
       const z = zoneIndexAt(t);
       if (z !== last) {
         last = z;
@@ -55,6 +57,11 @@ export default function Hud() {
         <p className="mt-1 text-xs text-white/70">
           <span ref={pressureRef}>1</span> atm · {ZONES[zone].name}
         </p>
+      </div>
+
+      {/* thin progress line down the right edge */}
+      <div aria-hidden className="fixed bottom-[18%] right-0 top-[18%] w-[2px] bg-white/10">
+        <div ref={barRef} className="h-full origin-top scale-y-0 bg-cyan-200/70" />
       </div>
 
       {/* zone navigation, hidden on small screens */}
