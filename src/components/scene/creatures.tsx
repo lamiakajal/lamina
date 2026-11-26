@@ -206,3 +206,123 @@ export function Manta(p: MantaProps) {
     </group>
   );
 }
+
+type JellyProps = {
+  zone: number;
+  x: number;
+  z: number;
+  dy: number;
+  size: number;
+  phase: number;
+};
+
+const TENTACLES = 10;
+const TENTACLE_POINTS = 14;
+
+export function Jelly({ zone, x, z, dy, size, phase }: JellyProps) {
+  const ref = useRef<THREE.Group>(null);
+
+  const built = useMemo(() => {
+    const bellGeometry = new THREE.SphereGeometry(1, 32, 18, 0, Math.PI * 2, 0, Math.PI * 0.58);
+    const bellMaterial = makeAnimatedMaterial({
+      color: "#7fb4e0",
+      emissive: "#2f8cff",
+      emissiveIntensity: 0.5,
+      opacity: 0.36,
+      roughness: 0.25,
+      metalness: 0,
+      physical: true,
+      phase,
+      speed: 1.6,
+      snippet: JELLY_SNIPPET,
+    });
+
+    // tentacles are thin additive lines whose points are moved every frame
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: "#8fd0ff",
+      transparent: true,
+      opacity: 0.5,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const group = new THREE.Group();
+    const lines: { attr: THREE.BufferAttribute; angle: number }[] = [];
+    for (let k = 0; k < TENTACLES; k++) {
+      const g = new THREE.BufferGeometry();
+      const attr = new THREE.BufferAttribute(new Float32Array(TENTACLE_POINTS * 3), 3);
+      g.setAttribute("position", attr);
+      const line = new THREE.Line(g, lineMaterial);
+      line.frustumCulled = false;
+      group.add(line);
+      lines.push({ attr, angle: (k / TENTACLES) * Math.PI * 2 });
+    }
+    return { bellGeometry, bellMaterial, lineMaterial, group, lines };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useFrame(() => {
+    const g = ref.current;
+    if (!g) return;
+    const t = timeU.value;
+    const pulse = Math.sin(t * 1.6 + phase);
+
+    g.position.set(
+      x + Math.sin(t * 0.12 + phase) * 2.5,
+      zoneY(zone) + dy + Math.sin(t * 0.3 + phase * 2) * 0.9,
+      z + Math.cos(t * 0.1 + phase) * 2,
+    );
+    g.rotation.z = Math.sin(t * 0.2 + phase) * 0.12;
+
+    for (const { attr, angle } of built.lines) {
+      for (let j = 0; j < TENTACLE_POINTS; j++) {
+        const f = j / (TENTACLE_POINTS - 1);
+        const sway = Math.sin(t * 1.1 - j * 0.5 + angle * 2 + phase) * 0.06 * (0.4 + j * 0.35);
+        const r = 0.6 * (1 - f * 0.35) * (1 + 0.1 * pulse * (1 - f));
+        const drop = 0.15 + f * 2.3 * (1 + 0.06 * Math.sin(t * 1.6 + phase + 1));
+        attr.setXYZ(j, Math.cos(angle) * r + sway, -drop, Math.sin(angle) * r + sway * 0.7);
+      }
+      attr.needsUpdate = true;
+    }
+  });
+
+  useEffect(
+    () => () => {
+      built.bellGeometry.dispose();
+      built.bellMaterial.dispose();
+      built.lineMaterial.dispose();
+    },
+    [built],
+  );
+
+  return (
+    <group ref={ref} scale={size}>
+      <mesh geometry={built.bellGeometry} material={built.bellMaterial} />
+      <primitive object={built.group} />
+      <GlowSprite color="#3d9bff" size={3.2} opacity={0.35} />
+    </group>
+  );
+}
+
+type JelliesProps = { zone: number; count: number; seed: number; sizeMin?: number; sizeMax?: number };
+
+/** A loose cloud of jellyfish scattered through one zone. */
+export function Jellies({ zone, count, seed, sizeMin = 0.9, sizeMax = 1.7 }: JelliesProps) {
+  const items = useMemo(() => {
+    const r = mulberry32(seed);
+    return Array.from({ length: count }, () => ({
+      x: (r() - 0.5) * 18,
+      dy: (r() - 0.5) * 16,
+      z: -14 + r() * 14,
+      size: sizeMin + r() * (sizeMax - sizeMin),
+      phase: r() * Math.PI * 2,
+    }));
+  }, [count, seed, sizeMin, sizeMax]);
+
+  return (
+    <>
+      {items.map((j, i) => (
+        <Jelly key={i} zone={zone} {...j} />
+      ))}
+    </>
+  );
+}
