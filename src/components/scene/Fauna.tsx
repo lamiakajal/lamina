@@ -2,6 +2,7 @@
 
 import { Suspense, type ReactNode } from "react";
 import { hasCreature } from "@/lib/media";
+import { SPECIES } from "@/lib/species";
 import { Angler, Gulper, Jellies, Manta, School } from "./creatures";
 import type { FishShape } from "./geometry";
 import { SpriteSchool } from "./sprites";
@@ -103,6 +104,13 @@ export default function Fauna({ low }: { low: boolean }) {
           <SpriteSchool file="amphipod" mode="additive" zone={4} count={n(12)} height={0.45} seed={6} speed={0.05} dir={-1} rx={10} rz={5} cz={-5} spreadY={7} spreadA={2} />
         </Suspense>
       )}
+
+      {/* the rest of the list, shown only when their photos exist */}
+      {SPECIES.filter((sp) => hasCreature(sp.file)).map(({ count, ...sp }) => (
+        <Suspense key={sp.file} fallback={null}>
+          <SpriteSchool {...sp} count={sp.count > 3 ? n(sp.count) : sp.count} seed={sp.file.length * 7} />
+        </Suspense>
+      ))}
     </>
   );
 }
