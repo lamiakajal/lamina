@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
+import JsonLd from "@/components/JsonLd";
 import { SITE } from "@/lib/site";
 
 const display = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", display: "swap" });
@@ -44,7 +45,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
-      <body className="bg-[#02060a] font-sans text-white antialiased">{children}</body>
+      <body className="bg-[#02060a] font-sans text-white antialiased">
+        <JsonLd />
+        {children}
+      </body>
     </html>
   );
 }
