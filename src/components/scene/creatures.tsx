@@ -167,3 +167,42 @@ export function School(p: SchoolProps) {
 
   return <instancedMesh ref={ref} args={[geometry, material, p.count]} frustumCulled={false} />;
 }
+
+type MantaProps = OrbitOpts;
+
+export function Manta(p: MantaProps) {
+  const ref = useRef<THREE.Group>(null);
+
+  const { geometry, material } = useMemo(
+    () => ({
+      geometry: makeMantaGeometry(),
+      material: makeAnimatedMaterial({
+        vertexColors: true,
+        metalness: 0.15,
+        roughness: 0.55,
+        phase: p.phase,
+        speed: 1.4,
+        amp: 0.38,
+        snippet: MANTA_SNIPPET,
+      }),
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
+  useOrbit(ref, p);
+
+  useEffect(
+    () => () => {
+      geometry.dispose();
+      material.dispose();
+    },
+    [geometry, material],
+  );
+
+  return (
+    <group ref={ref} scale={1.5}>
+      <mesh geometry={geometry} material={material} />
+    </group>
+  );
+}
