@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import Hud from "@/components/Hud";
 import SceneLoader from "@/components/SceneLoader";
 import ScrollDriver from "@/components/ScrollDriver";
+import VideoLayers from "@/components/VideoLayers";
 import ZoneSection from "@/components/ZoneSection";
 import { ZONES } from "@/lib/zones";
 
@@ -12,6 +13,7 @@ export default function Home() {
     <>
       <SceneLoader />
       <ScrollDriver />
+      <VideoLayers />
       <Hud />
       <main id="top" className="relative z-10">
         <Hero />
