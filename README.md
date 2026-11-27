@@ -26,8 +26,8 @@ Scroll and the camera sinks. The light fades, the water calms, the pressure clim
 - **Feed the fish.** Fish follow the cursor (or your finger). A click drops glowing pellets and nearby fish race to eat them. A small counter keeps score.
 - **Waves everywhere.** SVG wave dividers that calm with depth, an animated wordmark, and a wave in the depth meter.
 - **Live depth HUD.** Depth in metres, pressure in atmospheres, and the current zone, written straight to the DOM so scrolling never causes a React re-render.
-- **Field guide.** Twenty-four animals with their Latin names, grouped by the layer they live in.
-- **Photoreal-ready.** Every animal is drawn in code. Drop in a photo or a video loop and the scene uses it instead, with no code changes.
+- **Field guide.** Thirty-five animals with their Latin names, grouped by the layer they live in.
+- **Photographic.** Real-looking animals float through the scene as cut-out photographs, with five looping water videos behind the text. Anything missing falls back to an animal drawn in code.
 - **Pro details.** Preloader that dives from 0 to 11,000 m, custom scrollbar, brand mark and favicon, scroll reveals, footer, and a join form backed by MongoDB.
 - **Made to be found.** Metadata, Open Graph and Twitter images, JSON-LD, sitemap, robots and a web manifest.
 
@@ -83,13 +83,13 @@ Open http://localhost:3000.
 
 ## Photographic media
 
-Photos and video loops are generated separately and are not committed. [docs/ASSET-PROMPTS.md](docs/ASSET-PROMPTS.md) lists the prompts and file names. Put the files in `media-src/` and run:
+The processed photos and loops are committed in `public/`. They are AI-generated images and video. [docs/ASSET-PROMPTS.md](docs/ASSET-PROMPTS.md) lists the prompts and file names. To add or replace one, put the file in `media-src/` (the folder is not committed) and run:
 
 ```bash
 npm run media
 ```
 
-The script resizes and converts them into `public/` and writes the manifest the scene reads. Anything missing falls back to the version drawn in code. Marine imagery made this way is AI-generated.
+The script resizes and converts them into `public/` and writes the manifest the scene reads. White-background photos need a transparent cut-out first, which the script warns about. Anything missing falls back to the version drawn in code.
 
 ## Devices and browsers
 
@@ -117,7 +117,7 @@ Heavy 3D on a very old phone can still be slow. That is the main thing to check 
 - [x] Scroll-driven 3D descent with five zones
 - [x] Cursor and touch game with food
 - [x] Preloader, footer, brand mark, responsive layout
-- [ ] Photographic animals and video loops
+- [x] Photographic animals and video loops
 - [ ] Ambient sound that deepens with the dive
 - [ ] Per-zone species pages
 - [ ] Performance pass on low-end phones
