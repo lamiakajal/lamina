@@ -1,11 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
 import "./globals.css";
 import JsonLd from "@/components/JsonLd";
 import { SITE } from "@/lib/site";
 
-const display = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", display: "swap" });
-const sans = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const display = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-display-face",
+  display: "swap",
+});
+const sans = Manrope({ subsets: ["latin"], variable: "--font-sans-face", display: "swap" });
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono-face",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -39,13 +51,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#02060a",
+  themeColor: "#03080d",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
-      <body suppressHydrationWarning className="bg-[#02060a] font-sans text-white antialiased">
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+      <body suppressHydrationWarning className="bg-ink font-sans text-pearl antialiased">
         <JsonLd />
         {children}
       </body>
