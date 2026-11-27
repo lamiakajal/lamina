@@ -14,17 +14,17 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const src = join(root, "media-src");
 const pub = join(root, "public");
 
-// Photos on white need a transparent background. Glowing deep-sea animals are
-// shot on black and blended additively, so they do not.
+// Every animal needs a transparent background. Photos shot on white or black
+// are cut out before they go in media-src, so there is nothing to blend here.
 const CUTOUT = [
   "sardine", "yellow-snapper", "manta-ray", "bluefin-tuna", "lanternfish",
   "mahi-mahi", "hammerhead-shark", "sea-turtle", "whale-shark", "swordfish", "sunfish",
-];
-const ON_BLACK = [
+  "blue-whale", "dolphin", "clownfish", "blue-tang", "moorish-idol", "mandarin-fish",
+  "flame-angelfish", "royal-gramma", "emperor-angelfish", "copperband-butterflyfish",
   "pelagia-jelly", "atolla-jelly", "anglerfish", "vampire-squid", "gulper-eel", "snailfish", "amphipod",
   "hatchetfish", "oarfish", "viperfish", "fangtooth", "giant-squid", "dumbo-octopus", "grenadier",
 ];
-const VIDEOS = ["hero-surface", "marine-snow", "biolight", "sunbeams"];
+const VIDEOS = ["hero-surface", "marine-snow", "biolight", "sunbeams", "reef"];
 
 const list = (dir, re) => (existsSync(dir) ? readdirSync(dir).filter((f) => re.test(f)) : []);
 
@@ -33,8 +33,8 @@ mkdirSync(join(pub, "video"), { recursive: true });
 
 for (const file of list(join(src, "creatures"), /\.(png|jpe?g|webp|avif)$/i)) {
   const name = parse(file).name.toLowerCase();
-  if (![...CUTOUT, ...ON_BLACK].includes(name)) {
-    console.log(`SKIP  ${file}: unknown name. Use one of: ${[...CUTOUT, ...ON_BLACK].join(", ")}`);
+  if (!CUTOUT.includes(name)) {
+    console.log(`SKIP  ${file}: unknown name. Use one of: ${CUTOUT.join(", ")}`);
     continue;
   }
   try {
