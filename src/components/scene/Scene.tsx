@@ -5,6 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import { glowU, isLowEnd, snowU } from "./fx";
 import { Particles, Rays, Rig, Surface } from "./environment";
 import Fauna from "./Fauna";
+import Followers from "./Followers";
 
 export default function Scene() {
   const low = useMemo(() => isLowEnd(), []);
@@ -36,6 +37,7 @@ export default function Scene() {
       />
 
       <Fauna low={low} />
+      <Followers low={low} />
     </Canvas>
   );
 }
