@@ -40,7 +40,7 @@ export default function Hud() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-start justify-between p-4 text-shadow sm:p-6">
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-start justify-between px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] text-shadow sm:p-6">
       <a
         href="#top"
         onClick={(e) => {
@@ -50,7 +50,7 @@ export default function Hud() {
         className="pointer-events-auto"
         aria-label="Lamina, back to the top"
       >
-        <LaminaLogo />
+        <LaminaLogo size={26} className="sm:[&_svg]:h-[30px] sm:[&_svg]:w-[30px]" />
       </a>
 
       <div className="text-right" aria-live="off">
