@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { mulberry32 } from "@/lib/rand";
-import { store } from "@/lib/store";
+import { pointer, store } from "@/lib/store";
 import { ZONE_H } from "./config";
 import { glowU, snowU, sstep, sunU, timeU } from "./fx";
 
@@ -235,7 +235,7 @@ export function Rig() {
   const sun = useRef<THREE.DirectionalLight>(null);
   const sub = useRef<THREE.PointLight>(null);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const t = store.current;
     timeU.value = state.clock.elapsedTime * (store.reduced ? 0.35 : 1);
 
@@ -259,8 +259,13 @@ export function Rig() {
 
     // camera: straight down the water column with a little sway and mouse parallax
     const camY = -t * ZONE_H - 1.5;
-    const px = state.pointer.x;
-    const py = state.pointer.y;
+    // parallax follows the real cursor, easing back to centre when it rests
+    const live = pointer.seen && performance.now() - pointer.last < 4000;
+    const k = 1 - Math.exp(-Math.min(0.1, delta) * 3);
+    pointer.sx += ((live ? pointer.x : 0) - pointer.sx) * k;
+    pointer.sy += ((live ? pointer.y : 0) - pointer.sy) * k;
+    const px = pointer.sx;
+    const py = pointer.sy;
     state.camera.position.set(Math.sin(timeU.value * 0.2) * 0.5 + px * 0.7, camY + py * 0.3, 10);
     // at the very top, look up toward the surface, then level out
     const lookUp = 3.5 * (1 - sstep(0, 0.7, t)) - 1;
