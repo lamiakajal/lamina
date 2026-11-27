@@ -14,7 +14,7 @@ const ROLE_LABEL: Record<(typeof ROLES)[number], string> = {
 };
 
 const field =
-  "mt-2 w-full rounded-lg border border-white/15 bg-[#04131c]/70 px-4 py-3 text-white placeholder:text-white/35 focus:border-cyan-200/70";
+  "mt-2 w-full border-0 border-b border-pearl/30 bg-transparent px-0 py-3 text-pearl placeholder:text-pearl/35 transition focus:border-aqua focus:outline-none";
 
 export default function JoinForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -57,9 +57,9 @@ export default function JoinForm() {
 
   if (status === "saved" || status === "demo") {
     return (
-      <div role="status" className="rounded-2xl border border-white/10 bg-[#020b12]/60 p-8 backdrop-blur-md">
-        <h3 className="font-display text-3xl">You are on the list.</h3>
-        <p className="mt-3 text-white/80">
+      <div role="status" className="border-t border-pearl/25 pt-8">
+        <h3 className="font-display text-4xl">You are on the list.</h3>
+        <p className="mt-3 text-pearl/80">
           {status === "saved"
             ? "Thank you. Lamina is a concept project, so there is no real expedition yet, but your details are saved."
             : "Thank you. This copy of the site is running without a database, so nothing was saved."}
@@ -72,24 +72,24 @@ export default function JoinForm() {
     <form
       onSubmit={onSubmit}
       noValidate
-      className="rounded-2xl border border-white/10 bg-[#020b12]/60 p-6 backdrop-blur-md sm:p-8"
+      className="border-t border-pearl/25 pt-8"
     >
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="block text-sm text-white/80">
+        <label className="block text-sm text-pearl/80">
           Name
           <input name="name" type="text" required maxLength={80} autoComplete="name" className={field} aria-invalid={!!errors.name} />
           {errors.name && <span className="mt-1 block text-xs text-rose-300">{errors.name}</span>}
         </label>
-        <label className="block text-sm text-white/80">
+        <label className="block text-sm text-pearl/80">
           Email
           <input name="email" type="email" required maxLength={254} autoComplete="email" className={field} aria-invalid={!!errors.email} />
           {errors.email && <span className="mt-1 block text-xs text-rose-300">{errors.email}</span>}
         </label>
       </div>
 
-      <label className="mt-5 block text-sm text-white/80">
+      <label className="mt-5 block text-sm text-pearl/80">
         I am a
-        <select name="role" required defaultValue="" className={field} aria-invalid={!!errors.role}>
+        <select name="role" required defaultValue="" className={`${field} [&>option]:bg-deep`} aria-invalid={!!errors.role}>
           <option value="" disabled>
             Choose one
           </option>
@@ -102,8 +102,8 @@ export default function JoinForm() {
         {errors.role && <span className="mt-1 block text-xs text-rose-300">{errors.role}</span>}
       </label>
 
-      <label className="mt-5 block text-sm text-white/80">
-        Message <span className="text-white/40">(optional)</span>
+      <label className="mt-5 block text-sm text-pearl/80">
+        Message <span className="text-pearl/40">(optional)</span>
         <textarea name="message" rows={3} maxLength={1000} className={field} />
         {errors.message && <span className="mt-1 block text-xs text-rose-300">{errors.message}</span>}
       </label>
@@ -116,8 +116,8 @@ export default function JoinForm() {
         </label>
       </div>
 
-      <label className="mt-5 flex items-start gap-3 text-sm text-white/70">
-        <input name="consent" type="checkbox" className="mt-1 h-4 w-4 accent-cyan-300" />
+      <label className="mt-5 flex items-start gap-3 text-sm text-pearl/70">
+        <input name="consent" type="checkbox" className="mt-1 h-4 w-4 accent-[#6fe3d4]" />
         <span>I agree that my name and email are stored for this concept project. They are not shared.</span>
       </label>
       {errors.consent && <p className="mt-1 text-xs text-rose-300">{errors.consent}</p>}
@@ -126,7 +126,7 @@ export default function JoinForm() {
         <button
           type="submit"
           disabled={status === "sending"}
-          className="rounded-full bg-cyan-200 px-7 py-3 font-medium text-[#02131c] transition hover:bg-white disabled:opacity-60"
+          className="rounded-full bg-aqua px-8 py-3.5 font-medium text-ink transition hover:bg-pearl disabled:opacity-60"
         >
           {status === "sending" ? "Sending..." : "Join the next descent"}
         </button>
