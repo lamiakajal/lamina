@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { hasVideo } from "@/lib/media";
 import { store } from "@/lib/store";
 
@@ -16,8 +16,16 @@ export default function VideoLayers() {
   const hero = useRef<HTMLVideoElement>(null);
   const snow = useRef<HTMLVideoElement>(null);
   const glow = useRef<HTMLVideoElement>(null);
+  const [allowed, setAllowed] = useState(false);
+
+  // skip the heavy loops when someone has asked their browser to save data
+  useEffect(() => {
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    setAllowed(!conn?.saveData);
+  }, []);
 
   useEffect(() => {
+    if (!allowed) return;
     const videos = [hero.current, snow.current, glow.current];
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => videos.forEach((v) => (media.matches ? v?.pause() : void v?.play().catch(() => {})));
@@ -37,7 +45,9 @@ export default function VideoLayers() {
       cancelAnimationFrame(raf);
       media.removeEventListener("change", sync);
     };
-  }, []);
+  }, [allowed]);
+
+  if (!allowed) return null;
 
   const base = "pointer-events-none fixed inset-0 z-[1] h-full w-full object-cover";
   const common = { muted: true, loop: true, playsInline: true, autoPlay: true, preload: "metadata" as const, "aria-hidden": true };
