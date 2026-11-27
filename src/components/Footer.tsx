@@ -15,8 +15,8 @@ const link = "text-pearl/65 transition hover:text-aqua";
 export default function Footer() {
   return (
     <footer className="relative border-t border-pearl/15 px-6 pb-10 pt-20 sm:px-14 lg:px-24">
-      <div className="mx-auto grid max-w-6xl gap-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-        <div>
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="col-span-2 md:col-span-1">
           <LaminaLogo size={34} />
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-pearl/60">
             A scroll-driven descent through the ocean&apos;s five layers. A concept project, built by{" "}
