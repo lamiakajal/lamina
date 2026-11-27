@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Hud from "@/components/Hud";
 import Intro from "@/components/Intro";
+import Preloader from "@/components/Preloader";
 import Programme from "@/components/Programme";
 import SceneLoader from "@/components/SceneLoader";
 import ScrollDriver from "@/components/ScrollDriver";
@@ -15,6 +16,7 @@ import { ZONES } from "@/lib/zones";
 export default function Home() {
   return (
     <>
+      <Preloader />
       <SceneLoader />
       <ScrollDriver />
       <VideoLayers />

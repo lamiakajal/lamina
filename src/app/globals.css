@@ -118,3 +118,10 @@ body {
     transition: none;
   }
 }
+
+/* without JavaScript the loader could never close, so do not show it */
+@media (scripting: none) {
+  .preloader {
+    display: none;
+  }
+}
