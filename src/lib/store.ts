@@ -27,3 +27,23 @@ export function zoneIndexAt(t: number): number {
 export function pressureAt(depth: number): number {
   return 1 + depth / 10;
 }
+
+// Where the cursor or finger is, shared with the 3D scene and the cursor effects.
+export const pointer = {
+  x: 0, // -1 to 1, left to right
+  y: 0, // -1 to 1, bottom to top
+  sx: 0, // eased copies, used for the camera parallax
+  sy: 0,
+  last: 0, // performance.now() of the latest move
+  seen: false, // has the pointer moved at all yet
+  touch: false, // last input came from a finger
+  food: [] as { x: number; y: number }[], // drops waiting to be turned into pellets
+  fed: 0, // pellets eaten so far
+  lastFed: 0,
+};
+
+/** Queues a few pellets at a screen position (normalised -1 to 1). */
+export function dropFood(x: number, y: number): void {
+  if (pointer.food.length > 12) return;
+  pointer.food.push({ x, y });
+}
