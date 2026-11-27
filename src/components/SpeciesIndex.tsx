@@ -1,6 +1,7 @@
 import { hasCreature } from "@/lib/media";
-import { ZONES } from "@/lib/zones";
+import { SPECIES_COUNT, ZONES } from "@/lib/zones";
 import { LaminaMark } from "./LaminaLogo";
+import ReefReel from "./ReefReel";
 import Reveal from "./Reveal";
 
 /** Every animal from the dive, grouped by layer. Uses the photo when one exists. */
@@ -14,7 +15,7 @@ export default function SpeciesIndex() {
             Who you passed on the way down
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-pearl/80">
-            Twenty-four animals, from the shallows to the trench floor. The depth tells you where to look.
+            {SPECIES_COUNT} animals, from the shallows to the trench floor. The depth tells you where to look.
           </p>
         </Reveal>
 
@@ -30,6 +31,8 @@ export default function SpeciesIndex() {
                   {z.from.toLocaleString("en-US")} to {z.to.toLocaleString("en-US")} m
                 </p>
               </Reveal>
+
+              {zi === 0 && <ReefReel />}
 
               <ul className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
                 {z.species.map((s, i) => (
