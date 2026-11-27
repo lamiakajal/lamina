@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Hud from "@/components/Hud";
 import Intro from "@/components/Intro";
+import PointerLayer from "@/components/PointerLayer";
 import Preloader from "@/components/Preloader";
 import Programme from "@/components/Programme";
 import SceneLoader from "@/components/SceneLoader";
@@ -19,6 +20,7 @@ export default function Home() {
       <Preloader />
       <SceneLoader />
       <ScrollDriver />
+      <PointerLayer />
       <VideoLayers />
       <Hud />
       <main id="top" className="relative z-10">
