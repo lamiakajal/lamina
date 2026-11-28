@@ -52,6 +52,8 @@ export const ZONES: Zone[] = [
       { name: "Royal gramma", latin: "Gramma loreto", note: "Often swims upside down beneath ledges and overhangs.", file: "royal-gramma" },
       { name: "Emperor angelfish", latin: "Pomacanthus imperator", note: "Young fish look completely different, with blue and white rings.", file: "emperor-angelfish" },
       { name: "Copperband butterflyfish", latin: "Chelmon rostratus", note: "Its long snout reaches food hidden deep in crevices.", file: "copperband-butterflyfish" },
+      { name: "Blue whale", latin: "Balaenoptera musculus", note: "The largest animal known to have lived, up to about 30 metres long.", file: "blue-whale" },
+      { name: "Mauve stinger", latin: "Pelagia noctiluca", note: "A drifting jelly of the upper water that glows when disturbed.", file: "pelagia-jelly" },
     ],
   },
   {
@@ -74,7 +76,6 @@ export const ZONES: Zone[] = [
       { name: "Ocean sunfish", latin: "Mola mola", note: "Dives hundreds of metres to feed on jellyfish.", file: "sunfish" },
       { name: "Hatchetfish", latin: "Argyropelecus", note: "Glows from underneath to cancel out its own shadow.", file: "hatchetfish" },
       { name: "Oarfish", latin: "Regalecus glesne", note: "The longest bony fish, sometimes over 8 metres.", file: "oarfish" },
-      { name: "Blue whale", latin: "Balaenoptera musculus", note: "The largest animal known to have lived, up to about 30 metres long.", file: "blue-whale" },
     ],
   },
   {
@@ -92,7 +93,6 @@ export const ZONES: Zone[] = [
     fact: "In one long study off California, about three quarters of the animals seen in open water made their own light.",
     species: [
       { name: "Atolla jellyfish", latin: "Atolla wyvillei", note: "When attacked it flashes a ring of blue light as an alarm.", file: "atolla-jelly" },
-      { name: "Mauve stinger", latin: "Pelagia noctiluca", note: "A drifting jelly that glows when disturbed.", file: "pelagia-jelly" },
       { name: "Anglerfish", latin: "Melanocetus johnsonii", note: "The glowing lure draws prey toward the mouth.", file: "anglerfish" },
       { name: "Viperfish", latin: "Chauliodus", note: "Its teeth are so long they do not fit inside the closed mouth.", file: "viperfish" },
       { name: "Fangtooth", latin: "Anoplogaster cornuta", note: "Teeth that look far too big for its small body.", file: "fangtooth" },

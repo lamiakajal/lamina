@@ -61,7 +61,7 @@ export default function Fauna({ low }: { low: boolean }) {
       {/* zone 3: midnight */}
       <Pick
         file="pelagia-jelly"
-        photo={<SpriteSchool file="pelagia-jelly" mode="alpha" zone={2} count={n(6)} height={3} seed={21} speed={0.03} rx={8} rz={4} cz={-6} spreadY={8} spreadA={5} flip={false} pulse={0.06} />}
+        photo={<SpriteSchool file="pelagia-jelly" mode="alpha" zone={0} count={n(5)} height={3} seed={21} speed={0.03} rx={8} rz={4} cz={-6} spreadY={8} spreadA={5} flip={false} pulse={0.06} />}
         fallback={<Jellies zone={2} count={n(8)} seed={21} />}
       />
       {hasCreature("atolla-jelly") && (

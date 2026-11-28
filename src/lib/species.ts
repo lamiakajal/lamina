@@ -37,7 +37,7 @@ export const SPECIES: Species[] = [
   // twilight
   { file: "swordfish", mode: "alpha", zone: 1, count: 2, length: 3.8, speed: 0.17, rx: 14, rz: 7, cz: -7, spreadY: 5, spreadA: 1.5 },
   { file: "sunfish", mode: "alpha", zone: 1, count: 1, length: 2.4, speed: 0.04, rx: 9, rz: 5, cz: -6, spreadY: 3, spreadA: 0.1, dir: -1 },
-  { file: "blue-whale", mode: "alpha", zone: 1, count: 1, length: 14, speed: 0.025, rx: 16, rz: 8, cz: -16, spreadY: 2, spreadA: 0.1 },
+  { file: "blue-whale", mode: "alpha", zone: 0, count: 1, length: 14, speed: 0.025, rx: 16, rz: 8, cz: -16, spreadY: 2, spreadA: 0.1 },
   { file: "hatchetfish", mode: "alpha", zone: 1, count: 14, length: 0.95, speed: 0.1, rx: 10, rz: 5, cz: -5, spreadY: 7, spreadA: 1.2 },
   { file: "oarfish", mode: "alpha", zone: 1, count: 1, length: 8, speed: 0.03, rx: 9, rz: 5, cz: -8, spreadY: 3, spreadA: 0.1, dir: -1 },
   // midnight
