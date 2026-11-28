@@ -47,7 +47,7 @@ export default function Hud() {
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: store.reduced ? "auto" : "smooth" });
         }}
-        className="pointer-events-auto"
+        className="glass pointer-events-auto !rounded-full px-4 py-2"
         aria-label="Lamina, back to the top"
       >
         <LaminaLogo size={26} className="sm:[&_svg]:h-[30px] sm:[&_svg]:w-[30px]" />
