@@ -28,12 +28,6 @@ export default function Home() {
         <Hero />
         <Intro />
         <Stats />
-        <Plate
-          src="/scenes/manta.jpg"
-          alt="A manta ray glides through sunlit water above a diver"
-          place="Open water, 20 m"
-          caption="A manta ray, and a diver far below it for scale."
-        />
         <div id="zones">
           {ZONES.map((zone, i) => (
             <ZoneSection key={zone.id} zone={zone} index={i} />
