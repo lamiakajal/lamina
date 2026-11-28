@@ -20,7 +20,7 @@ export default function ZoneSection({ zone, index }: Props) {
       <Reveal className="glass relative w-full max-w-xl p-7 text-shadow sm:p-10">
         <span
           aria-hidden
-          className="outline-num pointer-events-none absolute -top-20 -left-2 select-none font-display text-[8rem] leading-none sm:-top-32 sm:-left-3 sm:text-[15rem]"
+          className="outline-num mb-3 block select-none font-display text-5xl leading-none sm:text-6xl"
         >
           {n}
         </span>

@@ -9,15 +9,19 @@ import { getGlowTexture, glowU, timeU } from "./fx";
 import { makeFishGeometry, swimSnippet, type FishShape } from "./geometry";
 import { makeAnimatedMaterial } from "./materials";
 
-// A small silver fish that comes to see what the cursor is doing.
-const SHAPE: FishShape = { H: 0.2, W: 0.12, tail: 0.66, dorsal: 0.07, eye: 0.04, back: "#35728f", belly: "#e8f0f3", fins: "#5d8aa3" };
+// A small pale fish that comes to see what the cursor is doing. Each one is tinted
+// with its own colour, so the body is kept light and the tint does the rest.
+const SHAPE: FishShape = { H: 0.2, W: 0.12, tail: 0.66, dorsal: 0.07, eye: 0.04, back: "#ffffff", belly: "#ffe7c4", fins: "#ffffff" };
+
+// nemo orange, goldfish gold, blue tang, and friends
+const PALETTE = ["#ff7a1a", "#ffb400", "#ffd93b", "#1f7bff", "#ff4a4a", "#b05cff", "#3fd37a", "#ff6fae", "#19c9d8", "#ff9a3c"];
 
 const ACTIVE_MS = 5000; // how long they stay after the pointer stops
 const MAX_PELLETS = 32;
 const PELLET_LIFE = 11; // seconds
-const FISH_SCALE = 0.7;
+const FISH_SCALE = 0.36;
 const SHALLOW = new THREE.Color("#ffffff");
-const DEEP = new THREE.Color("#7fd6e0");
+const DEEP = new THREE.Color("#3c4a5e"); // the same colours, just dimmed once the light is gone
 
 const clamp = (x: number, a: number, b: number) => Math.min(b, Math.max(a, x));
 
@@ -31,6 +35,7 @@ export default function Followers({ low }: { low: boolean }) {
   const group = useRef<THREE.Group>(null);
   const mesh = useRef<THREE.InstancedMesh>(null);
   const points = useRef<THREE.Points>(null);
+  const painted = useRef(false);
   const count = low ? 12 : 26;
 
   const sim = useMemo(() => {
@@ -44,7 +49,7 @@ export default function Followers({ low }: { low: boolean }) {
       vertexColors: true,
       metalness: 0.5,
       roughness: 0.35,
-      emissive: "#6fe3d4",
+      emissive: "#4a6a80",
       emissiveIntensity: 0,
       instanced: true,
       speed: 11,
@@ -64,7 +69,7 @@ export default function Followers({ low }: { low: boolean }) {
       ring: 0.5 + r() * 1.9, // how far from the cursor it likes to hover
       w: 0.5 + r() * 0.9, // how fast it circles
       ph: r() * Math.PI * 2,
-      s: 0.8 + r() * 0.45,
+      s: 0.85 + r() * 0.35,
     }));
 
     const pellets: Pellet[] = [];
@@ -106,6 +111,13 @@ export default function Followers({ low }: { low: boolean }) {
     const dt = Math.min(0.05, delta);
     const now = performance.now();
     const t = timeU.value;
+
+    // give every fish its own colour, once
+    if (!painted.current) {
+      for (let i = 0; i < count; i++) m.setColorAt(i, tmp.color.set(PALETTE[i % PALETTE.length]));
+      if (m.instanceColor) m.instanceColor.needsUpdate = true;
+      painted.current = true;
+    }
 
     // ride with the camera so every position below is in screen space
     g.position.copy(cam.position);
@@ -243,10 +255,10 @@ export default function Followers({ low }: { low: boolean }) {
     attr.needsUpdate = true;
     pelletGeo.setDrawRange(0, pellets.length);
 
-    // paler near the surface, a little luminous once the light is gone
+    // bright near the surface, dim and a touch luminous once the light is gone
     const mat = sim.material;
     mat.color.copy(tmp.color.lerpColors(SHALLOW, DEEP, clamp(store.current / 3, 0, 1)));
-    mat.emissiveIntensity = glowU.value * 0.9;
+    mat.emissiveIntensity = glowU.value * 0.35;
   });
 
   return (
