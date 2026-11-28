@@ -18,6 +18,13 @@ export default function Stats() {
           </Reveal>
         ))}
       </dl>
+      <p className="mx-auto mt-6 max-w-6xl text-xs text-pearl/50">
+        Figures are rounded. Source:{" "}
+        <a className="underline underline-offset-4 hover:text-aqua" href="https://oceanexplorer.noaa.gov" rel="noopener">
+          NOAA Ocean Exploration
+        </a>
+        .
+      </p>
     </section>
   );
 }
