@@ -27,7 +27,7 @@ Scroll and the camera sinks. The light fades, the water calms, the pressure clim
 - **Waves everywhere.** SVG wave dividers that calm with depth, an animated wordmark, and a wave in the depth meter.
 - **Live depth HUD.** Depth in metres, pressure in atmospheres, and the current zone, written straight to the DOM so scrolling never causes a React re-render.
 - **Field guide.** Thirty-five animals with their Latin names, grouped by the layer they live in.
-- **Photographic.** Real-looking animals float through the scene as cut-out photographs, with seven looping water videos behind the text. Anything missing falls back to an animal drawn in code.
+- **Photographic.** Real-looking animals float through the scene as cut-out photographs, with looping water videos behind the text. Anything missing falls back to an animal drawn in code.
 - **Pro details.** Preloader that dives from 0 to 11,000 m, custom scrollbar, brand mark and favicon, scroll reveals, footer, and a join form backed by MongoDB.
 - **Made to be found.** Metadata, Open Graph and Twitter images, JSON-LD, sitemap, robots and a web manifest.
 
