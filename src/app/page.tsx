@@ -1,3 +1,5 @@
+import Finale from "@/components/Finale";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Hud from "@/components/Hud";
 import SceneLoader from "@/components/SceneLoader";
@@ -18,6 +20,8 @@ export default function Home() {
             <ZoneSection key={zone.id} zone={zone} index={i} />
           ))}
         </div>
+        <Finale />
+        <Footer />
       </main>
     </>
   );
