@@ -10,21 +10,22 @@ export default function ZoneSection({ zone, index }: Props) {
   const right = index % 2 === 1;
   const n = String(index + 1).padStart(2, "0");
 
-  // a soft pool of shade behind the text instead of a box
-  const scrim = `radial-gradient(70% 60% at ${right ? "78%" : "22%"} 50%, rgb(0 10 18 / 0.5), transparent 70%)`;
+  // a soft pool of shade behind the text instead of a box: centred on phones, to the side on wide screens
+  const scrim = right
+    ? "sm:bg-[radial-gradient(70%_60%_at_78%_50%,rgb(0_10_18/0.5),transparent_70%)]"
+    : "sm:bg-[radial-gradient(70%_60%_at_22%_50%,rgb(0_10_18/0.5),transparent_70%)]";
 
   return (
     <section
       id={`zone-${index}`}
       aria-labelledby={`zone-${index}-title`}
-      className={`relative flex min-h-[140vh] items-center px-6 sm:px-14 lg:px-24 ${right ? "sm:justify-end" : "sm:justify-start"}`}
-      style={{ backgroundImage: scrim }}
+      className={`relative flex min-h-[125svh] items-center bg-[radial-gradient(95%_65%_at_50%_50%,rgb(0_10_18/0.55),transparent_75%)] px-6 sm:min-h-[140vh] sm:px-14 lg:px-24 ${scrim} ${right ? "sm:justify-end" : "sm:justify-start"}`}
     >
       <WaveDivider level={index} />
       <Reveal className="relative w-full max-w-xl text-shadow">
         <span
           aria-hidden
-          className="outline-num pointer-events-none absolute -top-24 -left-3 select-none font-display text-[10rem] leading-none sm:-top-32 sm:text-[15rem]"
+          className="outline-num pointer-events-none absolute -top-20 -left-2 select-none font-display text-[8rem] leading-none sm:-top-32 sm:-left-3 sm:text-[15rem]"
         >
           {n}
         </span>
