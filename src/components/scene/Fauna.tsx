@@ -66,19 +66,19 @@ export default function Fauna({ low }: { low: boolean }) {
       />
       {hasCreature("atolla-jelly") && (
         <Suspense fallback={null}>
-          <SpriteSchool file="atolla-jelly" mode="alpha" zone={2} count={3} height={2.4} seed={22} speed={0.025} dir={-1} rx={9} rz={4} cz={-8} spreadY={8} spreadA={5} flip={false} pulse={0.05} />
+          <SpriteSchool file="atolla-jelly" mode="alpha" zone={2} count={5} height={2.4} seed={22} speed={0.025} dir={-1} rx={9} rz={4} cz={-8} spreadY={8} spreadA={5} flip={false} pulse={0.05} />
         </Suspense>
       )}
       <Pick
         file="anglerfish"
-        photo={<SpriteSchool file="anglerfish" mode="alpha" zone={2} count={1} length={3.6} seed={23} speed={0.1} rx={9} rz={5} cz={-4} spreadY={1} spreadA={0.1} />}
+        photo={<SpriteSchool file="anglerfish" mode="alpha" zone={2} count={2} length={3.6} seed={23} speed={0.1} rx={9} rz={5} cz={-4} spreadY={1} spreadA={0.1} />}
         fallback={<Angler zone={2} phase={0.5} rx={9} rz={5} cz={-4} speed={0.1} dy={-2} />}
       />
 
       {/* zone 4: abyss */}
       <Pick
         file="gulper-eel"
-        photo={<SpriteSchool file="gulper-eel" mode="alpha" zone={3} count={2} length={4.5} seed={31} speed={0.05} rx={12} rz={6} cz={-7} spreadY={5} spreadA={3} />}
+        photo={<SpriteSchool file="gulper-eel" mode="alpha" zone={3} count={3} length={4.5} seed={31} speed={0.05} rx={12} rz={6} cz={-7} spreadY={5} spreadA={3} />}
         fallback={
           <>
             <Gulper zone={3} phase={0} rx={11} rz={6} cz={-6} speed={0.06} dy={2} size={0.9} />
@@ -88,7 +88,7 @@ export default function Fauna({ low }: { low: boolean }) {
       />
       {hasCreature("vampire-squid") && (
         <Suspense fallback={null}>
-          <SpriteSchool file="vampire-squid" mode="alpha" zone={3} count={2} length={3.6} seed={32} speed={0.03} dir={-1} rx={8} rz={4} cz={-6} spreadY={6} spreadA={4} flip={false} pulse={0.05} />
+          <SpriteSchool file="vampire-squid" mode="alpha" zone={3} count={3} length={3.6} seed={32} speed={0.03} dir={-1} rx={8} rz={4} cz={-6} spreadY={6} spreadA={4} flip={false} pulse={0.05} />
         </Suspense>
       )}
       {!hasCreature("pelagia-jelly") && <Jellies zone={3} count={3} seed={33} sizeMin={0.8} sizeMax={1.3} />}
@@ -96,19 +96,19 @@ export default function Fauna({ low }: { low: boolean }) {
       {/* zone 5: hadal */}
       <Pick
         file="snailfish"
-        photo={<SpriteSchool file="snailfish" mode="alpha" zone={4} count={5} length={2.6} seed={5} speed={0.06} rx={9} rz={5} cz={-4} spreadY={6} spreadA={1.2} />}
+        photo={<SpriteSchool file="snailfish" mode="alpha" zone={4} count={10} length={2.6} seed={5} speed={0.06} rx={9} rz={5} cz={-4} spreadY={6} spreadA={1.2} />}
         fallback={<School zone={4} count={7} seed={5} scale={0.75} speed={0.06} rx={9} rz={5} cz={-4} spreadY={6} spreadA={1.2} shape={SNAILFISH} metalness={0.05} roughness={0.5} opacity={0.8} emissive="#5a4a88" emissiveIntensity={0.35} swim={4} amp={0.2} />}
       />
       {hasCreature("amphipod") && (
         <Suspense fallback={null}>
-          <SpriteSchool file="amphipod" mode="alpha" zone={4} count={n(12)} length={0.8} seed={6} speed={0.05} dir={-1} rx={10} rz={5} cz={-5} spreadY={7} spreadA={2} />
+          <SpriteSchool file="amphipod" mode="alpha" zone={4} count={n(20)} length={0.8} seed={6} speed={0.05} dir={-1} rx={10} rz={5} cz={-5} spreadY={7} spreadA={2} />
         </Suspense>
       )}
 
       {/* the rest of the list, shown only when their photos exist */}
       {SPECIES.filter((sp) => hasCreature(sp.file)).map((sp) => (
         <Suspense key={sp.file} fallback={null}>
-          <SpriteSchool {...sp} count={sp.count > 3 ? n(sp.count) : sp.count} seed={sp.file.length * 7} />
+          <SpriteSchool {...sp} count={sp.count > 3 ? n(sp.count) : sp.count} seed={sp.seed ?? sp.file.length * 7} />
         </Suspense>
       ))}
     </>
