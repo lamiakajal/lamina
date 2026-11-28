@@ -13,7 +13,8 @@ type Props = {
   mode: "alpha" | "additive"; // cut-outs are blended normally, glowing animals additively
   zone: number;
   count: number;
-  height: number; // world height of one sprite
+  height?: number; // world height of one sprite (jellies and other tall animals)
+  length?: number; // world width of one sprite; wins over height, so long fish keep their proportions
   speed: number;
   rx: number;
   rz: number;
@@ -87,7 +88,7 @@ export function SpriteSchool(p: Props) {
       const a = a0 + f.off;
       const vx = -Math.sin(a) * p.rx * f.dr * dir;
       const squash = p.pulse ? 1 + p.pulse * Math.sin(t * 1.6 + f.bob) : 1;
-      const h = p.height * f.s;
+      const h = (p.length ? p.length / aspect : (p.height ?? 1)) * f.s;
       const facing = p.flip === false ? 1 : vx >= 0 ? 1 : -1;
 
       o.position.set(

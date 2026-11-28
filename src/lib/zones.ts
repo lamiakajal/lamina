@@ -43,6 +43,15 @@ export const ZONES: Zone[] = [
       { name: "Great hammerhead", latin: "Sphyrna mokarran", note: "The wide head carries sensors that pick up faint electric fields.", file: "hammerhead-shark" },
       { name: "Green sea turtle", latin: "Chelonia mydas", note: "Grazes on seagrass and can rest underwater for hours.", file: "sea-turtle" },
       { name: "Whale shark", latin: "Rhincodon typus", note: "The largest fish alive, and it feeds on plankton.", file: "whale-shark" },
+      { name: "Bottlenose dolphin", latin: "Tursiops truncatus", note: "Uses clicks and whistles to find food and to talk to the pod.", file: "dolphin" },
+      { name: "Clownfish", latin: "Amphiprion ocellaris", note: "Lives among anemone tentacles, and the sting does not harm it.", file: "clownfish" },
+      { name: "Blue tang", latin: "Paracanthurus hepatus", note: "A sharp spine near the tail is its defence against hunters.", file: "blue-tang" },
+      { name: "Moorish idol", latin: "Zanclus cornutus", note: "The long white fin on its back trails behind like a banner.", file: "moorish-idol" },
+      { name: "Mandarin fish", latin: "Synchiropus splendidus", note: "The bright pattern is a warning: its slime tastes and smells foul.", file: "mandarin-fish" },
+      { name: "Flame angelfish", latin: "Centropyge loricula", note: "A small reef angelfish that rarely strays far from shelter.", file: "flame-angelfish" },
+      { name: "Royal gramma", latin: "Gramma loreto", note: "Often swims upside down beneath ledges and overhangs.", file: "royal-gramma" },
+      { name: "Emperor angelfish", latin: "Pomacanthus imperator", note: "Young fish look completely different, with blue and white rings.", file: "emperor-angelfish" },
+      { name: "Copperband butterflyfish", latin: "Chelmon rostratus", note: "Its long snout reaches food hidden deep in crevices.", file: "copperband-butterflyfish" },
     ],
   },
   {
@@ -65,6 +74,7 @@ export const ZONES: Zone[] = [
       { name: "Ocean sunfish", latin: "Mola mola", note: "Dives hundreds of metres to feed on jellyfish.", file: "sunfish" },
       { name: "Hatchetfish", latin: "Argyropelecus", note: "Glows from underneath to cancel out its own shadow.", file: "hatchetfish" },
       { name: "Oarfish", latin: "Regalecus glesne", note: "The longest bony fish, sometimes over 8 metres.", file: "oarfish" },
+      { name: "Blue whale", latin: "Balaenoptera musculus", note: "The largest animal known to have lived, up to about 30 metres long.", file: "blue-whale" },
     ],
   },
   {
@@ -130,3 +140,4 @@ export const ZONES: Zone[] = [
 ];
 
 export const ZONE_COUNT = ZONES.length;
+export const SPECIES_COUNT = ZONES.reduce((n, z) => n + z.species.length, 0);
