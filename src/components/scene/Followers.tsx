@@ -19,7 +19,7 @@ const PALETTE = ["#ff7a1a", "#ffb400", "#ffd93b", "#1f7bff", "#ff4a4a", "#b05cff
 const ACTIVE_MS = 5000; // how long they stay after the pointer stops
 const MAX_PELLETS = 32;
 const PELLET_LIFE = 11; // seconds
-const FISH_SCALE = 0.36;
+const FISH_SCALE = 0.2;
 const SHALLOW = new THREE.Color("#ffffff");
 const DEEP = new THREE.Color("#3c4a5e"); // the same colours, just dimmed once the light is gone
 
