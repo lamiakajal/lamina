@@ -38,9 +38,11 @@
   ],
   "video": [
     "biolight",
+    "drift",
     "hero-surface",
     "marine-snow",
     "reef",
+    "seafloor",
     "sunbeams"
   ]
 }
