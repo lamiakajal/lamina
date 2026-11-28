@@ -125,3 +125,26 @@ body {
     display: none;
   }
 }
+
+/* ring that spreads out from a click, where the food lands */
+.food-ripple {
+  position: fixed;
+  z-index: 60;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 1px solid var(--color-aqua);
+  border-radius: 999px;
+  pointer-events: none;
+  animation: ripple 0.9s ease-out forwards;
+}
+
+@keyframes ripple {
+  from { transform: scale(0.4); opacity: 0.9; }
+  to { transform: scale(5); opacity: 0; }
+}
+
+/* the native cursor stays, the halo only adds to it */
+@media (pointer: coarse) {
+  .food-ripple { border-width: 2px; }
+}
