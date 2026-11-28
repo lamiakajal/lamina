@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-face), ui-serif, Georgia, serif;
+  --font-sans: var(--font-sans-face), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink: #03080d;
+  --color-deep: #071722;
+  --color-pearl: #eaf1ef;
+  --color-aqua: #6fe3d4;
+  --color-brass: #e8c27a;
 }
 
 :root {
@@ -11,25 +18,60 @@
 
 html {
   scroll-behavior: smooth;
-  background: #02060a;
+  background: var(--color-ink);
+  scrollbar-width: thin;
+  scrollbar-color: rgb(111 227 212 / 0.45) var(--color-ink);
 }
 
 body {
-  background: #02060a;
-  color: #fff;
+  background: var(--color-ink);
+  color: var(--color-pearl);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: rgb(123 232 255 / 0.35);
+  background: rgb(111 227 212 / 0.3);
+  color: #fff;
 }
 
 :focus-visible {
-  outline: 2px solid #7be8ff;
+  outline: 2px solid var(--color-aqua);
   outline-offset: 3px;
 }
 
+/* scrollbar: thin, dark track, a thumb that glows a little when you grab it */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgb(111 227 212 / 0.55), rgb(232 194 122 / 0.45));
+  border: 2px solid var(--color-ink);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgb(111 227 212 / 0.85), rgb(232 194 122 / 0.7));
+}
+
+/* small uppercase labels set in the mono face */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* big outlined numerals behind each zone */
+.outline-num {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(232 194 122 / 0.45);
+}
+
 .text-shadow {
-  text-shadow: 0 2px 24px rgb(0 20 30 / 0.55);
+  text-shadow: 0 2px 28px rgb(0 14 22 / 0.7), 0 1px 2px rgb(0 14 22 / 0.5);
 }
 
 @keyframes bob {

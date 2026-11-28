@@ -16,7 +16,7 @@ export default function WaveDivider({ level }: Props) {
   const style = (speed: number) => ({ "--wave-speed": `${speed}s` }) as CSSProperties;
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-16 overflow-hidden text-cyan-100">
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-16 overflow-hidden text-aqua">
       <svg
         className="wave-drift absolute left-0 top-0 h-full w-[200%] opacity-40"
         viewBox={`0 0 ${W} ${H}`}

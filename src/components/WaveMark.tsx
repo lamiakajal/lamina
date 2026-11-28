@@ -9,7 +9,7 @@ export default function WaveMark() {
   return (
     <span className="relative inline-block pb-[0.12em]">
       {SITE.name}
-      <span aria-hidden className="absolute inset-x-0 bottom-0 block h-[0.14em] overflow-hidden text-cyan-200">
+      <span aria-hidden className="absolute inset-x-0 bottom-0 block h-[0.14em] overflow-hidden text-aqua">
         <svg
           className="wave-drift absolute left-0 top-0 h-full w-[200%]"
           viewBox={`0 0 ${W} ${H}`}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SITE } from "@/lib/site";
+import LaminaLogo from "./LaminaLogo";
 import { depthAt, pressureAt, store, zoneIndexAt } from "@/lib/store";
 import { wavePath } from "@/lib/wave";
 import { ZONES } from "@/lib/zones";
@@ -47,18 +47,19 @@ export default function Hud() {
           e.preventDefault();
           window.scrollTo({ top: 0, behavior: store.reduced ? "auto" : "smooth" });
         }}
-        className="pointer-events-auto font-display text-2xl tracking-tight"
+        className="pointer-events-auto"
+        aria-label="Lamina, back to the top"
       >
-        {SITE.name}
+        <LaminaLogo />
       </a>
 
       <div className="text-right" aria-live="off">
-        <p className="text-[0.65rem] uppercase tracking-[0.3em] text-white/60">Depth</p>
-        <p className="font-display text-3xl leading-none tabular-nums sm:text-4xl">
+        <p className="eyebrow text-white/60">Depth</p>
+        <p className="font-display text-4xl leading-none tabular-nums sm:text-5xl">
           <span ref={depthRef}>0</span>
           <span className="ml-1 text-base text-white/70">m</span>
         </p>
-        <div ref={waveRef} aria-hidden className="mt-2 ml-auto h-3 w-28 origin-center overflow-hidden text-cyan-200">
+        <div ref={waveRef} aria-hidden className="mt-2 ml-auto h-3 w-28 origin-center overflow-hidden text-aqua">
           <svg
             className="wave-drift h-full w-[200%]"
             viewBox="0 0 400 12"
@@ -68,14 +69,14 @@ export default function Hud() {
             <path d={wavePath(400, 6, 4, 100, 0, 10)} fill="none" stroke="currentColor" strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
           </svg>
         </div>
-        <p className="mt-1 text-xs text-white/70">
+        <p className="mt-1.5 font-mono text-[0.7rem] tracking-wide text-white/70">
           <span ref={pressureRef}>1</span> atm · {ZONES[zone].name}
         </p>
       </div>
 
       {/* thin progress line down the right edge */}
       <div aria-hidden className="fixed bottom-[18%] right-0 top-[18%] w-[2px] bg-white/10">
-        <div ref={barRef} className="h-full origin-top scale-y-0 bg-cyan-200/70" />
+        <div ref={barRef} className="h-full origin-top scale-y-0 bg-aqua/70" />
       </div>
 
       {/* zone navigation, hidden on small screens */}
@@ -101,7 +102,7 @@ export default function Hud() {
                 i === zone ? "scale-125 bg-white" : "bg-transparent group-hover:bg-white/50"
               }`}
             />
-            <span className="text-[0.7rem] uppercase tracking-[0.2em] text-white/0 transition group-hover:text-white/80 group-focus-visible:text-white/80">
+            <span className="eyebrow text-[0.62rem] text-white/0 transition group-hover:text-white/80 group-focus-visible:text-white/80">
               {z.technical}
             </span>
           </button>
