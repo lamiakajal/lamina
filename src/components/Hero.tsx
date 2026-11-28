@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site";
+import WaveMark from "./WaveMark";
 
 export default function Hero() {
   return (
@@ -8,7 +9,7 @@ export default function Hero() {
           A concept by {SITE.author.name}
         </p>
         <h1 className="mt-4 font-display text-[clamp(4.5rem,15vw,12rem)] leading-[0.9] tracking-tight">
-          {SITE.name}
+          <WaveMark />
         </h1>
         <p className="mt-6 max-w-xl text-lg text-white/85 sm:text-xl">
           {SITE.tagline}. Scroll to dive from the sunlit surface down to 11,000 metres.

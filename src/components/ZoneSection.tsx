@@ -1,4 +1,5 @@
 import type { Zone } from "@/lib/zones";
+import WaveDivider from "./WaveDivider";
 
 const fmt = new Intl.NumberFormat("en-US");
 
@@ -11,8 +12,9 @@ export default function ZoneSection({ zone, index }: Props) {
     <section
       id={`zone-${index}`}
       aria-labelledby={`zone-${index}-title`}
-      className={`flex min-h-[135vh] items-center px-6 sm:px-12 ${right ? "sm:justify-end" : "sm:justify-start"}`}
+      className={`relative flex min-h-[135vh] items-center px-6 sm:px-12 ${right ? "sm:justify-end" : "sm:justify-start"}`}
     >
+      <WaveDivider level={index} />
       <article className="max-w-xl rounded-2xl border border-white/10 bg-[#020b12]/55 p-6 backdrop-blur-md sm:p-8">
         <p className="text-xs uppercase tracking-[0.28em] text-cyan-200/80">
           Zone 0{index + 1} · {zone.technical}
