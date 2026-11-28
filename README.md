@@ -3,6 +3,10 @@
 </p>
 
 <p align="center">
+  <a href="https://lamina-lamiakajal.vercel.app"><strong>Live site: lamina-lamiakajal.vercel.app</strong></a>
+</p>
+
+<p align="center">
   <img alt="Status: work in progress" src="https://img.shields.io/badge/status-work%20in%20progress-e8c27a?style=flat-square">
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-000000?style=flat-square&logo=nextdotjs">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript&logoColor=white">
@@ -130,7 +134,13 @@ Heavy 3D on a very old phone can still be slow. That is the main thing to check 
 ## Author
 
 Made by [Lamia Kajal](https://lamiakajal.com), full-stack developer.
-[GitHub](https://github.com/lamiakajal) · [LinkedIn](https://www.linkedin.com/in/lamiakajal)
+
+- Live site: [lamina-lamiakajal.vercel.app](https://lamina-lamiakajal.vercel.app)
+- Portfolio: [lamiakajal.com](https://lamiakajal.com)
+- GitHub: [github.com/lamiakajal](https://github.com/lamiakajal)
+- LinkedIn: [linkedin.com/in/lamiakajal](https://www.linkedin.com/in/lamiakajal)
+- Behance: [behance.net/lamiakajal](https://www.behance.net/lamiakajal)
+- Medium: [medium.com/@lamiakajal](https://medium.com/@lamiakajal)
 
 ## License
 
