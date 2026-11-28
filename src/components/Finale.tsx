@@ -8,7 +8,7 @@ export default function Finale() {
       aria-labelledby="finale-title"
       className="relative flex min-h-screen items-center justify-center px-6 py-28 sm:px-14"
     >
-      <Reveal className="w-full max-w-2xl text-shadow">
+      <Reveal className="glass w-full max-w-2xl p-7 text-shadow sm:p-12">
         <p className="eyebrow text-brass">The bottom, and what comes next</p>
         <h2 id="finale-title" className="mt-5 font-display text-[clamp(2.8rem,7vw,5.5rem)] leading-[1.02]">
           Join the next <em className="text-aqua">descent</em>

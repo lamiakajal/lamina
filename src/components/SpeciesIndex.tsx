@@ -37,8 +37,8 @@ export default function SpeciesIndex() {
               <ul className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
                 {z.species.map((s, i) => (
                   <li key={s.name}>
-                    <Reveal delay={(i % 3) * 80}>
-                      <figure className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-pearl/10 bg-gradient-to-b from-pearl/[0.04] to-transparent">
+                    <Reveal delay={(i % 3) * 80} className="glass h-full p-4">
+                      <figure className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl">
                         {s.file && hasCreature(s.file) ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
