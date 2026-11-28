@@ -45,7 +45,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
-      <body className="bg-[#02060a] font-sans text-white antialiased">
+      <body suppressHydrationWarning className="bg-[#02060a] font-sans text-white antialiased">
         <JsonLd />
         {children}
       </body>
