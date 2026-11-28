@@ -11,11 +11,15 @@ const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
  * Each one only renders if its file was added with `npm run media`.
  *  - hero-surface: the sunlit water at the very top, fading out as you dive
  *  - sunbeams: slow light shafts through the upper water
+ *  - drift: fine particles in blue mid-water, strongest through the twilight zone
  *  - marine-snow, biolight: drifting specks, blended in over the dark zones
+ *  - seafloor: the sediment plain, only near the bottom of the dive
  */
 export default function VideoLayers() {
   const hero = useRef<HTMLVideoElement>(null);
   const beams = useRef<HTMLVideoElement>(null);
+  const drift = useRef<HTMLVideoElement>(null);
+  const floor = useRef<HTMLVideoElement>(null);
   const snow = useRef<HTMLVideoElement>(null);
   const glow = useRef<HTMLVideoElement>(null);
   const [allowed, setAllowed] = useState(false);
@@ -28,7 +32,7 @@ export default function VideoLayers() {
 
   useEffect(() => {
     if (!allowed) return;
-    const videos = [hero.current, beams.current, snow.current, glow.current];
+    const videos = [hero.current, beams.current, drift.current, snow.current, glow.current, floor.current];
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => videos.forEach((v) => (media.matches ? v?.pause() : void v?.play().catch(() => {})));
     sync();
@@ -39,8 +43,10 @@ export default function VideoLayers() {
       const t = store.current;
       if (hero.current) hero.current.style.opacity = String(1 - clamp01(t / 0.9));
       if (beams.current) beams.current.style.opacity = String(0.55 * clamp01((t - 0.2) / 0.6) * (1 - clamp01((t - 1.2) / 1)));
+      if (drift.current) drift.current.style.opacity = String(0.4 * clamp01((t - 0.9) / 0.7) * (1 - clamp01((t - 2.4) / 0.9)));
       if (snow.current) snow.current.style.opacity = String(0.55 * clamp01((t - 0.8) / 1.2));
       if (glow.current) glow.current.style.opacity = String(0.7 * clamp01((t - 1.8) / 1.2));
+      if (floor.current) floor.current.style.opacity = String(0.6 * clamp01((t - 3.7) / 0.9));
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
@@ -61,11 +67,17 @@ export default function VideoLayers() {
       {hasVideo("sunbeams") && (
         <video ref={beams} src="/video/sunbeams.mp4" className={`${base} opacity-0 mix-blend-screen`} {...common} />
       )}
+      {hasVideo("drift") && (
+        <video ref={drift} src="/video/drift.mp4" className={`${base} opacity-0 mix-blend-screen`} {...common} />
+      )}
       {hasVideo("marine-snow") && (
         <video ref={snow} src="/video/marine-snow.mp4" className={`${base} opacity-0 mix-blend-screen`} {...common} />
       )}
       {hasVideo("biolight") && (
         <video ref={glow} src="/video/biolight.mp4" className={`${base} opacity-0 mix-blend-screen`} {...common} />
+      )}
+      {hasVideo("seafloor") && (
+        <video ref={floor} src="/video/seafloor.mp4" className={`${base} opacity-0 mix-blend-screen`} {...common} />
       )}
     </>
   );

@@ -24,7 +24,7 @@ const CUTOUT = [
   "pelagia-jelly", "atolla-jelly", "anglerfish", "vampire-squid", "gulper-eel", "snailfish", "amphipod",
   "hatchetfish", "oarfish", "viperfish", "fangtooth", "giant-squid", "dumbo-octopus", "grenadier",
 ];
-const VIDEOS = ["hero-surface", "marine-snow", "biolight", "sunbeams", "reef"];
+const VIDEOS = ["hero-surface", "marine-snow", "biolight", "sunbeams", "reef", "drift", "seafloor"];
 
 const list = (dir, re) => (existsSync(dir) ? readdirSync(dir).filter((f) => re.test(f)) : []);
 
