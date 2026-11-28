@@ -1,4 +1,5 @@
 import type { Zone } from "@/lib/zones";
+import Reveal from "./Reveal";
 import WaveDivider from "./WaveDivider";
 
 const fmt = new Intl.NumberFormat("en-US");
@@ -7,46 +8,70 @@ type Props = { zone: Zone; index: number };
 
 export default function ZoneSection({ zone, index }: Props) {
   const right = index % 2 === 1;
+  const n = String(index + 1).padStart(2, "0");
+
+  // a soft pool of shade behind the text instead of a box
+  const scrim = `radial-gradient(70% 60% at ${right ? "78%" : "22%"} 50%, rgb(0 10 18 / 0.5), transparent 70%)`;
 
   return (
     <section
       id={`zone-${index}`}
       aria-labelledby={`zone-${index}-title`}
-      className={`relative flex min-h-[135vh] items-center px-6 sm:px-12 ${right ? "sm:justify-end" : "sm:justify-start"}`}
+      className={`relative flex min-h-[140vh] items-center px-6 sm:px-14 lg:px-24 ${right ? "sm:justify-end" : "sm:justify-start"}`}
+      style={{ backgroundImage: scrim }}
     >
       <WaveDivider level={index} />
-      <article className="max-w-xl rounded-2xl border border-white/10 bg-[#020b12]/55 p-6 backdrop-blur-md sm:p-8">
-        <p className="text-xs uppercase tracking-[0.28em] text-cyan-200/80">
-          Zone 0{index + 1} · {zone.technical}
+      <Reveal className="relative w-full max-w-xl text-shadow">
+        <span
+          aria-hidden
+          className="outline-num pointer-events-none absolute -top-24 -left-3 select-none font-display text-[10rem] leading-none sm:-top-32 sm:text-[15rem]"
+        >
+          {n}
+        </span>
+
+        <p className="eyebrow relative text-brass">
+          Zone {n} · {zone.technical}
         </p>
-        <h2 id={`zone-${index}-title`} className="mt-3 font-display text-4xl leading-[1.05] sm:text-5xl">
+        <h2
+          id={`zone-${index}-title`}
+          className="relative mt-4 font-display text-[clamp(2.8rem,7vw,5rem)] leading-[1.02]"
+        >
           {zone.title}
         </h2>
-        <p className="mt-2 text-sm text-cyan-100/70">
-          {fmt.format(zone.from)} to {fmt.format(zone.to)} m · {zone.name}
-        </p>
-        <p className="mt-5 leading-relaxed text-white/85">{zone.body}</p>
+        <p className="relative mt-3 font-display text-xl italic text-aqua sm:text-2xl">{zone.kicker}</p>
 
-        <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <dt className="text-white/50">Pressure</dt>
-            <dd className="mt-1 text-white/90">{zone.pressure}</dd>
-          </div>
-          <div>
-            <dt className="text-white/50">Light</dt>
-            <dd className="mt-1 text-white/90">{zone.light}</dd>
-          </div>
+        <p className="eyebrow mt-8 flex items-center gap-4 text-[0.68rem] text-pearl/70">
+          <span>{fmt.format(zone.from)} m</span>
+          <span aria-hidden className="h-px flex-1 bg-pearl/30" />
+          <span>{fmt.format(zone.to)} m</span>
+        </p>
+
+        <p className="mt-6 text-base leading-relaxed text-pearl/90 sm:text-lg">{zone.body}</p>
+
+        <dl className="mt-8 grid grid-cols-1 gap-5 border-t border-pearl/20 pt-6 text-sm sm:grid-cols-3">
+          {[
+            ["Light", zone.light],
+            ["Pressure", zone.pressure],
+            ["Temperature", zone.temperature],
+          ].map(([k, v]) => (
+            <div key={k}>
+              <dt className="eyebrow text-[0.62rem] text-pearl/55">{k}</dt>
+              <dd className="mt-1.5 leading-snug text-pearl">{v}</dd>
+            </div>
+          ))}
         </dl>
 
-        <ul className="mt-6 space-y-2 text-sm">
-          {zone.species.map((s) => (
-            <li key={s.name} className="text-white/80">
-              <strong className="font-medium text-white">{s.name}</strong>
-              <span className="text-white/60"> · {s.note}</span>
+        <p className="mt-8 border-l-2 border-brass/70 pl-4 text-sm leading-relaxed text-pearl/80">{zone.fact}</p>
+
+        <ul className="mt-8 divide-y divide-pearl/15 border-y border-pearl/15 text-sm">
+          {zone.species.slice(0, 3).map((s) => (
+            <li key={s.name} className="flex flex-col gap-0.5 py-3 sm:flex-row sm:items-baseline sm:gap-4">
+              <span className="font-medium text-pearl sm:w-40 sm:shrink-0">{s.name}</span>
+              <span className="text-pearl/65">{s.note}</span>
             </li>
           ))}
         </ul>
-      </article>
+      </Reveal>
     </section>
   );
 }
