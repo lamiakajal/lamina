@@ -16,3 +16,6 @@ next-env.d.ts
 .DS_Store
 .vercel
 npm-debug.log*
+
+# raw generated media, processed by `npm run media`
+media-src
