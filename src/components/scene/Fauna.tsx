@@ -107,7 +107,7 @@ export default function Fauna({ low }: { low: boolean }) {
 
       {/* the rest of the list, shown only when their photos exist */}
       {SPECIES.filter((sp) => hasCreature(sp.file)).map((sp) => (
-        <Suspense key={sp.file} fallback={null}>
+        <Suspense key={`${sp.file}-${sp.zone}`} fallback={null}>
           <SpriteSchool {...sp} count={sp.count > 3 ? n(sp.count) : sp.count} seed={sp.seed ?? sp.file.length * 7} />
         </Suspense>
       ))}
