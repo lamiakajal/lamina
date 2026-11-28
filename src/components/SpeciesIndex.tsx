@@ -1,7 +1,6 @@
 import { hasCreature } from "@/lib/media";
 import { SPECIES_COUNT, ZONES } from "@/lib/zones";
 import { LaminaMark } from "./LaminaLogo";
-import ReefReel from "./ReefReel";
 import Reveal from "./Reveal";
 
 /** Every animal from the dive, grouped by layer. Uses the photo when one exists. */
@@ -31,8 +30,6 @@ export default function SpeciesIndex() {
                   {z.from.toLocaleString("en-US")} to {z.to.toLocaleString("en-US")} m
                 </p>
               </Reveal>
-
-              {zi === 0 && <ReefReel />}
 
               <ul className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
                 {z.species.map((s, i) => (
