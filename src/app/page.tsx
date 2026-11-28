@@ -3,7 +3,6 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Hud from "@/components/Hud";
 import Intro from "@/components/Intro";
-import Plate from "@/components/Plate";
 import PointerLayer from "@/components/PointerLayer";
 import Preloader from "@/components/Preloader";
 import Programme from "@/components/Programme";
@@ -34,12 +33,6 @@ export default function Home() {
           ))}
         </div>
         <SpeciesIndex />
-        <Plate
-          src="/scenes/jellyfish.jpg"
-          alt="A single jellyfish drifting in blue water with sunbeams above"
-          place="Mid-water, 60 m"
-          caption="The last of the sunlight, and one jellyfish in no hurry."
-        />
         <Programme />
         <Finale />
         <Footer />
