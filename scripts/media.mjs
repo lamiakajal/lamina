@@ -16,8 +16,14 @@ const pub = join(root, "public");
 
 // Photos on white need a transparent background. Glowing deep-sea animals are
 // shot on black and blended additively, so they do not.
-const CUTOUT = ["sardine", "yellow-snapper", "manta-ray", "bluefin-tuna", "lanternfish"];
-const ON_BLACK = ["pelagia-jelly", "atolla-jelly", "anglerfish", "vampire-squid", "gulper-eel", "snailfish", "amphipod"];
+const CUTOUT = [
+  "sardine", "yellow-snapper", "manta-ray", "bluefin-tuna", "lanternfish",
+  "mahi-mahi", "hammerhead-shark", "sea-turtle", "whale-shark", "swordfish", "sunfish",
+];
+const ON_BLACK = [
+  "pelagia-jelly", "atolla-jelly", "anglerfish", "vampire-squid", "gulper-eel", "snailfish", "amphipod",
+  "hatchetfish", "oarfish", "viperfish", "fangtooth", "giant-squid", "dumbo-octopus", "grenadier",
+];
 const VIDEOS = ["hero-surface", "marine-snow", "biolight", "sunbeams"];
 
 const list = (dir, re) => (existsSync(dir) ? readdirSync(dir).filter((f) => re.test(f)) : []);
