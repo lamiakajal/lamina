@@ -3,7 +3,7 @@ import Reveal from "./Reveal";
 export default function Intro() {
   return (
     <section id="intro" className="relative px-6 py-36 sm:px-14 lg:px-24">
-      <div className="mx-auto grid max-w-6xl gap-12 text-shadow lg:grid-cols-[1.35fr_1fr] lg:items-end lg:gap-20">
+      <div className="glass mx-auto grid max-w-6xl gap-12 p-8 text-shadow sm:p-12 lg:grid-cols-[1.35fr_1fr] lg:items-end lg:gap-20">
         <Reveal>
           <p className="eyebrow text-brass">The idea</p>
           <h2 className="mt-6 font-display text-[clamp(2.4rem,6vw,4.75rem)] leading-[1.04]">
